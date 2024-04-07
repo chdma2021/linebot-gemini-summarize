@@ -27,11 +27,11 @@
 [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run)
 
 ```
-git clone https://github.com/louis70109/linebot-gemini-fastapi-example.git
+git clone https://github.com/louis70109/linebot-gemini-sumarize.git
 
-cd linebot-gemini-fastapi-example/
+cd linebot-gemini-sumarize/
 
-gcloud run deploy my-fastapi-example --source .
+gcloud run deploy my-linebot-summarize --source .
 ```
 
 ## Q&A
