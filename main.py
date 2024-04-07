@@ -131,8 +131,8 @@ async def handle_callback(request: Request):
     return 'OK'
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', default=8000))
+    port = int(os.environ.get('PORT', default=8080))
     debug = True if os.environ.get(
         'API_ENV', default='develop') == 'develop' else False
     logging.info('Application will start...')
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=debug)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=debug)
