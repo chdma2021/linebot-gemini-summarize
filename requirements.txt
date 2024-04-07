@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+line-bot-sdk==3.5.0
+git+https://github.com/ozgur/python-firebase
+grpcio
+google.generativeai
