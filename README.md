@@ -27,9 +27,9 @@
 [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run)
 
 ```
-git clone https://github.com/louis70109/linebot-gemini-sumarize.git
+git clone https://github.com/louis70109/linebot-gemini-summarize.git
 
-cd linebot-gemini-sumarize/
+cd linebot-gemini-summarize/
 
 gcloud run deploy my-linebot-summarize --source .
 ```
@@ -47,6 +47,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+gcloud auth configure-docker # Y
 ## 授權
 
 MIT
