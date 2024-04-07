@@ -1,5 +1,3 @@
-复制代码
-
 # 群組摘要王 v2
 
 群組摘要王 v2 是一款使用 FastAPI、LINE Messaging API 和 Google Generative AI，來為 LINE 群組的訊息進行摘要的開源專案。
