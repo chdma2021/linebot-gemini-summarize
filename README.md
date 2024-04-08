@@ -2,6 +2,8 @@
 
 群組摘要王 v2 是一款使用 FastAPI、LINE Messaging API 和 Google Generative AI，來為 LINE 群組的訊息進行摘要的開源專案。
 
+> 點子來自：「[如何開發一個「LINE Bot 群組聊天摘要生成器](https://engineering.linecorp.com/zh-hant/blog/linebot-chatgpt)」
+
 ## 功能
 
 - 接收 LINE 群組中的訊息。
@@ -47,7 +49,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+> 部屬上 GCP 遇到 container 權限問題？
+
+```
 gcloud auth configure-docker # Y
+```
+
 ## 授權
 
 MIT
