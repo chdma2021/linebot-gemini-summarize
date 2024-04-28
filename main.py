@@ -8,7 +8,6 @@ if os.getenv('API_ENV') != 'production':
 
 
 from fastapi import FastAPI, HTTPException, Request
-
 from linebot.v3.webhook import WebhookParser
 from linebot.v3.messaging import (
     AsyncApiClient,
@@ -84,7 +83,7 @@ async def handle_callback(request: Request):
             continue
         text = event.message.text
         user_id = event.source.user_id
-        
+
         msg_type = event.message.type
         fdb = firebase.FirebaseApplication(firebase_url, None)
         if event.source.type == 'group':
@@ -102,7 +101,7 @@ async def handle_callback(request: Request):
                 messages = chatgpt
 
             if text == '!清空':
-                
+
                 fdb.delete(user_chat_path, None)
                 await line_bot_api.reply_message(
                     ReplyMessageRequest(
@@ -112,22 +111,24 @@ async def handle_callback(request: Request):
                 )
             elif text == '!摘要':
                 model = genai.GenerativeModel('gemini-pro')
-                response = model.generate_content(f'Summary the following message in Traditional Chinese by less 5 list points. \n{messages}')
-                await line_bot_api.reply_message(
-                    ReplyMessageRequest(
-                        reply_token=event.reply_token,
-                        messages=[TextMessage(text=response.text)]
-                    )
-                )
+                response = model.generate_content(
+                    f'Summary the following message in Traditional Chinese by less 5 list points. \n{messages}')
+                reply_msg = response.text
             else:
                 model = genai.GenerativeModel('gemini-pro')
                 messages.append({'role': 'user', 'parts': [text]})
-                # response = model.generate_content(messages)
-                # messages.append({'role': 'model', 'parts': [response.text]})
+                response = model.generate_content(messages)
+                messages.append({'role': 'model', 'parts': [response.text]})
                 # 更新firebase中的對話紀錄
                 fdb.put_async(user_chat_path, None, messages)
-                # text = response.text
-        
+                reply_msg = response.text
+
+            await line_bot_api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[TextMessage(text=reply_msg)]
+                ))
+
     return 'OK'
 
 if __name__ == "__main__":
