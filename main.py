@@ -8,8 +8,6 @@ if os.getenv('API_ENV') != 'production':
 
 import requests
 import json
-from apispec import APISpec
-from apispec.ext.marshmallow import MarshmallowPlugin
 
 from fastapi import FastAPI, HTTPException, Request
 from linebot.v3.webhook import WebhookParser
