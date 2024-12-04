@@ -6,6 +6,13 @@ if os.getenv('API_ENV') != 'production':
 
     load_dotenv()
 
+import requests
+import json
+from flask import Flask, jsonify
+from flask_ngrok import run_with_ngrok
+from flask_apispec import FlaskApiSpec, doc
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
 
 from fastapi import FastAPI, HTTPException, Request
 from linebot.v3.webhook import WebhookParser
@@ -56,11 +63,58 @@ gemini_key = os.getenv('GEMINI_API_KEY')
 # Initialize the Gemini Pro API
 genai.configure(api_key=gemini_key)
 
+@app.get("/")
+def home():
+    return '歡迎來到中華數位行銷推廣協會'
 
 @app.get("/health")
 async def health():
-    return 'ok'
+    return '我還活著喔'
 
+@app.route('/chdma/<query>', methods=['GET'])
+def chdma(query):
+  prompt = query
+  logging.info('query'+query)
+  logging.info('prompt'+prompt)
+  system_instructions = '你是個行銷專家'
+  model = 'gemini-1.5-flash'
+  temperature = 2
+
+  if model == 'gemini-1.0-pro' and system_instructions is not None:
+    system_instructions = None
+    print('\x1b[31m(WARNING: System instructions ignored, gemini-1.0-pro does not support system instructions)\x1b[0m')
+
+  if model == 'gemini-1.0-pro' and temperature > 1:
+    temperature = 1
+    print('\x1b[34m(INFO: Temperature set to 1, gemini-1.0-pro does not support temperature > 1)\x1b[0m')
+
+  if system_instructions == '':
+    system_instructions = None
+
+  genai.configure(api_key=gemini_key)
+  model = genai.GenerativeModel(model, system_instruction=system_instructions)
+  config = genai.GenerationConfig(temperature=temperature)
+  response = model.generate_content(contents=[prompt], generation_config=config)
+
+  logging.info('response'+response.text)
+  print('response'+response.text)
+  return response.text
+    
+# endpoint for searching the web
+@app.route('/search/<query>', methods=['GET'])
+def serpapi_search(query):
+    print(f'Searching the web for "{question}"')
+    search_url = "https://serpapi.genai-pic.com/search"  # self hosted serpapi wrapper
+    params = {"q": query}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+
+    response = requests.get(search_url, params=params, headers=headers)
+
+    if response.status_code == 200:
+        results = response.json()
+        return results
+    else:
+        return jsonify({"error": "Failed to fetch results"}), response.status_code
 
 @app.post("/webhooks/line")
 async def handle_callback(request: Request):
