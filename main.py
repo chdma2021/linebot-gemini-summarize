@@ -8,9 +8,6 @@ if os.getenv('API_ENV') != 'production':
 
 import requests
 import json
-from flask import Flask, jsonify
-from flask_ngrok import run_with_ngrok
-from flask_apispec import FlaskApiSpec, doc
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 
