@@ -25,7 +25,8 @@ from firebase import firebase
 logging.basicConfig(level=os.getenv('LOG', 'WARNING'))
 logger = logging.getLogger(__file__)
 
-#app = FastAPI()
+from flask import Flask, request
+app = Flask(__name__)
 
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
