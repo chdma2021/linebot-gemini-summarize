@@ -61,7 +61,7 @@ def home():
     return '歡迎來到中華數位行銷推廣協會'
 
 @app.get("/health")
-async def health():
+def health():
     return '我還活著喔'
 
 @app.route('/chdma/<query>', methods=['GET'])
@@ -90,13 +90,14 @@ def chdma(query):
   response = model.generate_content(contents=[prompt], generation_config=config)
 
   logging.info('response'+response.text)
-  print('response'+response.text)
+  # print('response'+response.text)
   return response.text
     
 # endpoint for searching the web
 @app.route('/search/<query>', methods=['GET'])
 def serpapi_search(query):
     print(f'Searching the web for "{question}"')
+    logging.info('Searching the web for ='+question)
     search_url = "https://serpapi.genai-pic.com/search"  # self hosted serpapi wrapper
     params = {"q": query}
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
@@ -110,13 +111,14 @@ def serpapi_search(query):
         return jsonify({"error": "Failed to fetch results"}), response.status_code
 
 @app.post("/webhooks/line")
-async def handle_callback(request: Request):
+def handle_callback(request: Request):
     signature = request.headers['X-Line-Signature']
-
+    logging.info('signature ='+signature)
     # get request body as text
-    body = await request.body()
+    body = request.body()
     body = body.decode()
-
+    logging.info('body ='+body)
+    
     try:
         events = parser.parse(body, signature)
     except InvalidSignatureError:
@@ -150,7 +152,7 @@ async def handle_callback(request: Request):
             if text == '!清空':
 
                 fdb.delete(user_chat_path, None)
-                await line_bot_api.reply_message(
+                line_bot_api.reply_message(
                     ReplyMessageRequest(
                         reply_token=event.reply_token,
                         messages=[TextMessage(text='------對話歷史紀錄已經清空------')]
