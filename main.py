@@ -1,11 +1,6 @@
 import logging
 import os
 import sys
-if os.getenv('API_ENV') != 'production':
-    from dotenv import load_dotenv
-
-    load_dotenv()
-
 import requests
 import json
 
@@ -25,7 +20,6 @@ from linebot.v3.webhooks import (
     TextMessageContent,
 )
 import google.generativeai as genai
-import uvicorn
 from firebase import firebase
 
 logging.basicConfig(level=os.getenv('LOG', 'WARNING'))
@@ -36,9 +30,12 @@ logger = logging.getLogger(__file__)
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 if channel_secret is None:
+    logging.error('Specify LINE_CHANNEL_SECRET as environment variable.')
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
     sys.exit(1)
+    
 if channel_access_token is None:
+    logging.error('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
     sys.exit(1)
 
