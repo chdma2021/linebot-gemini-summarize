@@ -224,7 +224,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #message = TextSendMessage(text=event.message.text)
-    message = ai_message(query)    
+    #message = ai_message(query)
+    message = '歡迎來到中華數位行銷推廣協會'
     logging.info("message : " + message)
     line_bot_api.reply_message(event.reply_token, message)
 
