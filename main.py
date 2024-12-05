@@ -148,7 +148,7 @@ def handle_callback(request: Request):
                 messages = []
             else:
                 messages = chatgpt
-
+            logging.info('text ='+text)
             if text == '!清空':
 
                 fdb.delete(user_chat_path, None)
@@ -171,8 +171,10 @@ def handle_callback(request: Request):
                 # 更新firebase中的對話紀錄
                 fdb.put_async(user_chat_path, None, messages)
                 reply_msg = response.text
-
-            await line_bot_api.reply_message(
+            
+            logging.info('reply_msg ='+reply_msg)
+            
+            line_bot_api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
                     messages=[TextMessage(text=reply_msg)]
