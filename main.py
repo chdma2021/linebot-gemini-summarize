@@ -22,6 +22,16 @@ from linebot.v3.webhooks import (
 import google.generativeai as genai
 from firebase import firebase
 
+##
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import *
+##
+
 logging.basicConfig(level=os.getenv('LOG', 'WARNING'))
 logger = logging.getLogger(__file__)
 
