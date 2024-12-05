@@ -86,8 +86,8 @@ def health():
 
 def ai_message(question):
   prompt = question
-  logging.info('question'+query)
-  logging.info('prompt'+prompt)
+  logging.info('question : '+question)
+  logging.info('prompt : '+prompt)
   system_instructions = '你是個行銷專家'
   model = 'gemini-1.5-flash'
   temperature = 2
