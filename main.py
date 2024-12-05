@@ -29,7 +29,17 @@ from flask import Flask, request
 app = Flask(__name__)
 
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
+logging.info('channel_secret'+channel_secret)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+logging.info('channel_access_token'+channel_access_token)
+
+##
+# Channel Access Token
+line_bot_api = LineBotApi('4LzDH06MaxmzIjRhO1Ol0c3PACVhY6uKB70ivR27WzGMnZpedIEHUOwLEOFFCbBbPCSpp7KB3+KVinTRwXguF4+eRnSaUMJ41Mxz7l5PbQbT3Ba/vdHIBtKGHR1Y3ar0mnVABvTcGqNFUMU/jTynRgdB04t89/1O/w1cDnyilFU=')
+# Channel Secret
+handler = WebhookHandler('a0b1901302e0d032af19bec7053e6e72')
+##
+
 if channel_secret is None:
     logging.error('Specify LINE_CHANNEL_SECRET as environment variable.')
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
@@ -64,10 +74,9 @@ def home():
 def health():
     return '我還活著喔'
 
-@app.route('/chdma/<query>', methods=['GET'])
-def chdma(query):
-  prompt = query
-  logging.info('query'+query)
+def ai_message(question):
+  prompt = question
+  logging.info('question'+query)
   logging.info('prompt'+prompt)
   system_instructions = '你是個行銷專家'
   model = 'gemini-1.5-flash'
@@ -92,6 +101,10 @@ def chdma(query):
   logging.info('response'+response.text)
   # print('response'+response.text)
   return response.text
+
+@app.route('/chdma/<query>', methods=['GET'])
+def chdma(query):
+  return ai_message(query)
     
 # endpoint for searching the web
 @app.route('/search/<query>', methods=['GET'])
@@ -181,6 +194,29 @@ def handle_callback(request: Request):
                 ))
 
     return 'OK'
+
+# 監聽所有來自 /callback 的 Post Request
+@app.route("/callback", methods=['POST'])
+def callback():
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
+    # get request body as text
+    body = request.get_data(as_text=True)
+    logging.info("Request body: " + body)
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
+
+# 處理訊息
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    #message = TextSendMessage(text=event.message.text)
+    message = ai_message(query)    
+    logging.info("message : " + message)
+    line_bot_api.reply_message(event.reply_token, message)
 
 if __name__ == "__main__":
     app.run()
