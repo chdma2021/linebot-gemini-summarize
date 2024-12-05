@@ -96,8 +96,8 @@ def chdma(query):
 # endpoint for searching the web
 @app.route('/search/<query>', methods=['GET'])
 def serpapi_search(query):
-    print(f'Searching the web for "{question}"')
-    logging.info('Searching the web for ='+question)
+    print(f'Searching the web for "{query}"')
+    logging.info('Searching the web for ='+query)
     search_url = "https://serpapi.genai-pic.com/search"  # self hosted serpapi wrapper
     params = {"q": query}
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
