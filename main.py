@@ -141,8 +141,8 @@ def serpapi_search(query):
 @app.post("/webhooks/line")
 def handle_callback(content: request):
     #greating
-    logging.info('Hello I'm come in')
-    print('Hello I'm come in')
+    logging.info('Hello [/webhooks/line] I am come in')
+    print('Hello [/webhooks/line] I am come in')
     
     signature = content.headers['X-Line-Signature']
     logging.info('signature ='+signature)
@@ -203,7 +203,8 @@ def handle_callback(content: request):
                 messages.append({'role': 'model', 'parts': [response.text]})
                 # 更新firebase中的對話紀錄
                 fdb.put_async(user_chat_path, None, messages)
-                reply_msg = response.text
+                #reply_msg = response.text
+                reply_msg = ai_message(messages)
             
             logging.info('reply_msg ='+reply_msg)
             
@@ -218,6 +219,9 @@ def handle_callback(content: request):
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
+    logging.info('Hello [/callback] I am come in')
+    print('Hello [/callback] I am come in')
+    
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
     # get request body as text
@@ -233,9 +237,12 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    logging.info('Hello [handle_message] I am come in')
+    print('Hello [handle_message] I am come in')
+    
     #message = TextSendMessage(text=event.message.text)
-    #message = ai_message(query)
-    message = '歡迎來到中華數位行銷推廣協會'
+    message = ai_message(query)
+    #message = '歡迎來到中華數位行銷推廣協會'
     logging.info("message : " + message)
     line_bot_api.reply_message(event.reply_token, message)
 
