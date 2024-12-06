@@ -2,6 +2,6 @@ fastapi
 line-bot-sdk==3.5.0
 git+https://github.com/ozgur/python-firebase
 google.generativeai
-Flask==3.0.2
+Flask[async]==3.0.2
 asgiref
 aioflask
