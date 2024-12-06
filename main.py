@@ -112,8 +112,8 @@ def ai_message(question):
   genai.configure(api_key=gemini_key)
   model = genai.GenerativeModel(model, system_instruction=system_instructions)  
   config = genai.GenerationConfig(temperature=temperature)
-  #response = model.generate_content(contents=[prompt], generation_config=config)
-
+  response = model.generate_content(contents=[prompt], generation_config=config)
+  """
   response = model.generate_content(contents=[
 	"input: 我想了解中華數位行銷推廣協會",
 	"output: 有關於中華數位行銷推廣協會(https://chdma.org.tw/)，英文簡稱 CHDMA。以非營利為目的之公益性社會團體，以促進數位行銷及相關領域之研究、發展、應用與交流為宗旨",
@@ -157,7 +157,7 @@ def ai_message(question):
 	"output: 可能拓展國際合作、深化AI在數位行銷的應用、或是針對特定產業提供更專業的服務。",
 	"input: 我想了解中華數位行銷推廣協會",
 	"output: ",], generation_config=config)  
-
+  """
   logging.info('response'+response.text)
   # print('response'+response.text)
   return response.text
