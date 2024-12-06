@@ -110,13 +110,59 @@ def ai_message(question):
     system_instructions = None
 
   genai.configure(api_key=gemini_key)
-  model = genai.GenerativeModel(model, system_instruction=system_instructions)
+  model = genai.GenerativeModel(model, system_instruction=system_instructions)  
   config = genai.GenerationConfig(temperature=temperature)
-  response = model.generate_content(contents=[prompt], generation_config=config)
+  #response = model.generate_content(contents=[prompt], generation_config=config)
+
+    response = model.generate_content(contents=[
+	  "input: 我想了解中華數位行銷推廣協會",
+	  "output: 有關於中華數位行銷推廣協會(https://chdma.org.tw/)，英文簡稱 CHDMA。以非營利為目的之公益性社會團體，以促進數位行銷及相關領域之研究、發展、應用與交流為宗旨",
+	  "input: 中華數位行銷推廣協會的聯絡人",
+	  "output: 聯絡人：李孟峰\n電話：0911633190\n電子信箱：chdma2021@gmail.com",
+	  "input: 中華數位行銷推廣協會的入會資格",
+	  "output: 凡贊同本會宗旨年滿18歲之個人、大專院校學生（碩士在職專班除外）、及團體均得填具入會申請書，經理事會審查通過後入會。凡同本會宗旨且贊助本會經費、資源之個人或團體，填具入會申請書，經理事會審查通過後，為贊助會員。\n會員費用\n\t入會費：個人會員新臺幣壹仟元、團體會員新臺幣伍仟元、學生會員免入會費，於會員入會時繳納。\n\t常年費：個人會員新臺幣壹仟元、團體會員新臺幣伍仟元、學生會員新臺幣伍佰元。",
+	  "input: 中華數位行銷推廣協會的聯絡方式",
+	  "output: 地址：臺北市中山區南京東路二段 11 號 10 樓 B 室\n聯絡人：李孟峰\n電話：0911633190\n電子信箱：chdma2021@gmail.com",
+	  "input: 中華數位行銷推廣協會的行銷口號",
+	  "output: 數位轉型，驅動未來。\n科技賦能，行銷升級。\n連結全球，實體蛻變。\n培育人才，共創數位新局。",
+	  "input: 中華數位行銷推廣協會的協會宗旨",
+	  "output: 本會以非營利為目的之公益性社會團體，以促進數位行銷及相關領域之研究、發展、應用與交流為宗旨",
+	  "input: 中華數位行銷推廣協會的協會任務",
+	  "output: 提升實體企業科技應用能力\n接軌全球數位行銷科技資源\n舉辦與數位行銷相關之學術會議、研習、講習、訓練、討論、訪問、觀摩等\n推動實體數位行銷轉型\n培育數位行銷轉型人才\n其他有關數位行銷之研究發展事項",
+	  "input: 中華數位行銷推廣協會的使命",
+	  "output: 培育具備國際視野與實務能力的數位行銷人才，為台灣數位經濟注入新動能",
+	  "input: 中華數位行銷推廣協會的願景",
+	  "output: 成為台灣數位行銷人才的搖籃，提供優質的學習資源與發展平台，讓每位學員都能成為數位時代的佼佼者",
+	  "input: 中華數位行銷推廣協會的預期達到目標",
+	  "output: 透過數位行銷推動社會公益，促進社會發展。\n鼓勵數位行銷創新，培育新一代的數位行銷領袖。\n協助中小企業進行數位轉型，促進地方經濟發展",
+	  "input: 中華數位行銷推廣協會的入會資格",
+	  "output: 凡贊同本會宗旨年滿18歲之個人、大專院校學生（碩士在職專班除外）、及團體均得填具入會申請書，經理事會審查通過後入會。凡同本會宗旨且贊助本會經費、資源之個人或團體，填具入會申請書，經理事會審查通過後，為贊助會員。",
+	  "input: 中華數位行銷推廣協會的會員費用",
+	  "output: 入會費：個人會員新臺幣壹仟元、團體會員新臺幣伍仟元、學生會員免入會費，於會員入會時繳納。\n常年費：個人會員新臺幣壹仟元、團體會員新臺幣伍仟元、學生會員新臺幣伍佰元。",
+	  "input: 如果你是CHDMA的負責人，你會如何提升協會的知名度？",
+	  "output: 舉辦大型的數位行銷競賽、與知名品牌合作、或是推出線上學習平台等。",
+	  "input: CHDMA可以開發哪些新的服務來滿足會員的需求？",
+	  "output: 提供一對一的諮詢服務、建立會員交流平台、或是開發數位行銷工具等。",
+	  "input: CHDMA如何利用AI技術來提升服務品質？",
+	  "output: 利用AI進行數據分析、提供個人化學習建議、或是開發AI輔助的數位行銷工具。",
+	  "input: CHDMA可以與哪些單位合作，共同推動數位行銷的發展？",
+	  "output: 政府單位、學術機構、企業、其他相關協會等。",
+	  "input: 你認為CHDMA未來最具挑戰性的任務是什麼？",
+	  "output: 如何跟上快速變化的數位行銷技術、如何培育出符合未來需求的數位行銷人才等。",
+	  "input: CHDMA如何吸引更多年輕人加入數位行銷的行列？",
+	  "output: 舉辦學生專屬的活動、提供獎學金、或是與學校合作開設課程等。",
+	  "input: CHDMA如何確保培育出來的人才符合產業需求？",
+	  "output: 可能透過與企業合作、邀請業界專家授課等方式，讓課程內容更貼近產業實務。",
+	  "input: CHDMA未來可能發展的方向有哪些？",
+	  "output: 可能拓展國際合作、深化AI在數位行銷的應用、或是針對特定產業提供更專業的服務。",
+	  "input: 我想了解中華數位行銷推廣協會",
+	  "output: ",
+	], generation_config=config)  
 
   logging.info('response'+response.text)
   # print('response'+response.text)
   return response.text
+
 
 @app.route('/chdma/<query>', methods=['GET'])
 def chdma(query):
