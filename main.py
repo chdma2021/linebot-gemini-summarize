@@ -241,7 +241,7 @@ def handle_message(event):
     print('Hello [handle_message] I am come in')
     
     #message = TextSendMessage(text=event.message.text)
-    message = ai_message(query)
+    message = ai_message(message)
     #message = '歡迎來到中華數位行銷推廣協會'
     logging.info("message : " + message)
     line_bot_api.reply_message(event.reply_token, message)
