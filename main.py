@@ -8,7 +8,7 @@ import json
 ##
 from flask import Flask, request
 from flask import render_template
-from flask import HTTPException
+#from flask import HTTPException
 ##
 
 from linebot.v3.webhook import WebhookParser
