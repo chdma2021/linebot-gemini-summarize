@@ -10,7 +10,7 @@ import json
 from flask import render_template
 #from flask import HTTPException
 ##
-from flask import Flask, request , asyncio
+from flask import Flask, request
 
 from linebot.v3.webhook import WebhookParser
 from linebot.v3.messaging import (
