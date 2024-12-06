@@ -244,7 +244,7 @@ def handle_message(event):
     mtext = event.message.text
     ##
     logging.info('loggin : event.message.text : ' + event.message.text)
-    print('Print :'event.message.text : ' + event.message.text)
+    print('Print :event.message.text : ' + event.message.text)
     ##
     responseMessage = ai_message(mtext)
     #message = '歡迎來到中華數位行銷推廣協會'
