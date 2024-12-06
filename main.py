@@ -248,7 +248,8 @@ def handle_message(event):
     ##
     responseMessage = ai_message(mtext)
     #message = '歡迎來到中華數位行銷推廣協會'
-    logging.info("responseMessage : " + responseMessage)
+    logging.info('Loggin : responseMessage : ' + responseMessage)
+    print('Print : responseMessage : ' + responseMessage)
     line_bot_api.reply_message(event.reply_token, responseMessage)
 
 if __name__ == "__main__":
