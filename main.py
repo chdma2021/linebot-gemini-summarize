@@ -237,11 +237,16 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    logging.info('Hello [handle_message] I am come in')
-    print('Hello [handle_message] I am come in')
+    logging.info('Loggin : Hello [handle_message] I am come in')
+    print('Print : Hello [handle_message] I am come in')
     
-    message = TextSendMessage(text=event.message.text)
-    responseMessage = ai_message(message)
+    #message = TextSendMessage(text=event.message.text)
+    mtext = event.message.text
+    ##
+    logging.info('loggin : event.message.text : ' + event.message.text)
+    print('Print :'event.message.text : ' + event.message.text)
+    ##
+    responseMessage = ai_message(mtext)
     #message = '歡迎來到中華數位行銷推廣協會'
     logging.info("responseMessage : " + responseMessage)
     line_bot_api.reply_message(event.reply_token, responseMessage)
