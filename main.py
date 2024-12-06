@@ -240,11 +240,11 @@ def handle_message(event):
     logging.info('Hello [handle_message] I am come in')
     print('Hello [handle_message] I am come in')
     
-    #message = TextSendMessage(text=event.message.text)
-    message = ai_message(message)
+    message = TextSendMessage(text=event.message.text)
+    responseMessage = ai_message(message)
     #message = '歡迎來到中華數位行銷推廣協會'
-    logging.info("message : " + message)
-    line_bot_api.reply_message(event.reply_token, message)
+    logging.info("responseMessage : " + responseMessage)
+    line_bot_api.reply_message(event.reply_token, responseMessage)
 
 if __name__ == "__main__":
     app.run()
