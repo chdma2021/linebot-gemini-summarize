@@ -6,10 +6,11 @@ import json
 
 #from fastapi import FastAPI, HTTPException, Request
 ##
-from flask import Flask, request
+#from flask import Flask, Request
 from flask import render_template
 #from flask import HTTPException
 ##
+from flask import Flask, request
 
 from linebot.v3.webhook import WebhookParser
 from linebot.v3.messaging import (
@@ -41,9 +42,7 @@ from linebot.models import *
 logging.basicConfig(level=os.getenv('LOG', 'WARNING'))
 logger = logging.getLogger(__file__)
 
-from flask import Flask, request
 app = Flask(__name__)
-
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 logging.info('channel_secret'+channel_secret)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
@@ -140,13 +139,18 @@ def serpapi_search(query):
         return jsonify({"error": "Failed to fetch results"}), response.status_code
 
 @app.post("/webhooks/line")
-def handle_callback(request: Request):
-    signature = request.headers['X-Line-Signature']
+def handle_callback(content: request):
+    #greating
+    logging.info('Hello I'm come in')
+    print('Hello I'm come in')
+    
+    signature = content.headers['X-Line-Signature']
     logging.info('signature ='+signature)
     # get request body as text
-    body = request.body()
+    body = content.body()
     body = body.decode()
     logging.info('body ='+body)
+    print('body ='+body)
     
     try:
         events = parser.parse(body, signature)
