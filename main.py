@@ -75,8 +75,9 @@ parser = WebhookParser(channel_secret)
 
 
 firebase_url = os.getenv('FIREBASE_URL')
-gemini_key = os.getenv('GEMINI_API_KEY')
-
+#gemini_key = os.getenv('GEMINI_API_KEY')
+## change api key for CHDMA
+gemini_key = 'AIzaSyBNJncqirX0Cb-yGaYMhdfIU1K0IWBaYig'
 
 # Initialize the Gemini Pro API
 genai.configure(api_key=gemini_key)
