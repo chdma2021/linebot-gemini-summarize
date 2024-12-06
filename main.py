@@ -250,7 +250,9 @@ def handle_message(event):
     #message = '歡迎來到中華數位行銷推廣協會'
     logging.info('Loggin : responseMessage : ' + responseMessage)
     print('Print : responseMessage : ' + responseMessage)
-    line_bot_api.reply_message(event.reply_token, responseMessage)
+
+    event.message.text = responseMessage
+    line_bot_api.reply_message(event.reply_token, event)
 
 if __name__ == "__main__":
     app.run()
