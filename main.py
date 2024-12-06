@@ -4,7 +4,13 @@ import sys
 import requests
 import json
 
-from fastapi import FastAPI, HTTPException, Request
+#from fastapi import FastAPI, HTTPException, Request
+##
+from flask import Flask, request
+from flask import render_template
+from flask import HTTPException
+##
+
 from linebot.v3.webhook import WebhookParser
 from linebot.v3.messaging import (
     AsyncApiClient,
