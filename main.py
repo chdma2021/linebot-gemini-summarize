@@ -143,6 +143,7 @@ def ai_message(question):
   system_instructions += "Youtube 官方頻道：https://www.youtube.com/channel/UCT6xgBaEd-NTN76JMwFu3Cg ，或者搜尋 chdma2021，有更多免費的協會訊息與大師開講"
   system_instructions += "Facebook 官方粉絲專頁：https://www.facebook.com/CHDMA.TW，或者搜尋 chdma2021"
   system_instructions += "Instgram：https://www.instagram.com/chdma_2021?igsh=aDloOTdqcHh2M，或者搜尋 chdma2021"
+  system_instructions += "諮詢CHDMA 為喚醒詞，有聽到這個喚醒詞來回答對方提出的問題，否則保持沈默"	
   
 
 	
