@@ -143,7 +143,21 @@ def ai_message(question):
   system_instructions += "Youtube 官方頻道：https://www.youtube.com/channel/UCT6xgBaEd-NTN76JMwFu3Cg ，或者搜尋 chdma2021，有更多免費的協會訊息與大師開講"
   system_instructions += "Facebook 官方粉絲專頁：https://www.facebook.com/CHDMA.TW，或者搜尋 chdma2021"
   system_instructions += "Instgram：https://www.instagram.com/chdma_2021?igsh=aDloOTdqcHh2M，或者搜尋 chdma2021"
-  system_instructions += "[諮詢CHDMA]為喚醒詞，有聽到這個喚醒詞才來回答對方提出的問題，否則保持沈默"
+  system_instructions += "網站小編剛剛發表了台北大學數位行銷學士學位學程即將舉辦的畢業生畢業成果展"
+  system_instructions += "🎉 航向數位未來！2024 臺北大學數位行銷學程畢業成果展，盛大登場！"
+  system_instructions += "🎉四年磨一劍，蓄勢待發！國立臺北大學商學院數位行銷學士學位學程，全國唯一國立大學數位行銷學程，培育無數數位行銷人才，"
+  system_instructions += "讓在職人士也能兼顧工作與進修，掌握最新數位行銷技能！🔥 "
+  system_instructions += "12/14（六） 臺北大學民生校區一樓大廳 & "
+  system_instructions += "階梯教室，我們誠摯邀請您一同見證學員們的學習成果，感受他們四年來累積的數位行銷能量！✨ 精彩活動搶先看："
+  system_instructions += "重量級業界大師講座:"
+  system_instructions += "1.擁抱AI時代：AI賦能數位行銷 (鄭緯筌 Vista Cheng，知名專欄作家)"
+  system_instructions += "2.數位整合時代的電影行銷 (莊啟祥，有戲娛樂股份有限公司總經理)"
+  system_instructions += "3.畢業專題特展與投票: 一起來看看學員們的創意發想，並投下您神聖的一票！"
+  system_instructions += "4.頒獎與表揚: 為優秀的畢業生喝采！"
+  system_instructions += "💡 國立臺北大學數位行銷學程，是全國唯一國立大學的數位行銷科系，也是唯一提供社會人士在職進修的管道。" 
+  system_instructions += "在這裡，你將學到最實用的數位行銷知識與技能，為你的職涯發展增添無限可能！👉 別錯過這場年度盛事！ 12/14，我們不見不散！➡️ 更多資訊請洽："
+  system_instructions += "台北大學數位行銷學士學位學程：https://www.dma.ntpu.edu.tw/"
+  system_instructions += "中華數位行銷推廣協會：https://chdma.org.tw"
   
 
   print(system_instructions)
