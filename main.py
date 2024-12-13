@@ -205,87 +205,6 @@ def serpapi_search(query):
     else:
         return jsonify({"error": "Failed to fetch results"}), response.status_code
 
-@app.post("/webhooks/line")
-def handle_callback(content: request):
-    #greating
-    logging.info('Hello [/webhooks/line] I am come in')
-    print('Hello [/webhooks/line] I am come in')
-    
-    signature = content.headers['X-Line-Signature']
-    logging.info('signature ='+signature)
-    # get request body as text
-    body = content.body()
-    body = body.decode()
-    logging.info('body ='+body)
-    print('body ='+body)
-    
-    try:
-        events = parser.parse(body, signature)
-    except InvalidSignatureError:
-        raise HTTPException(status_code=400, detail="Invalid signature")
-
-    for event in events:
-        logging.info(event)
-        if not isinstance(event, MessageEvent):
-            continue
-        if not isinstance(event.message, TextMessageContent):
-            continue
-        text = event.message.text
-        user_id = event.source.user_id
-        print('user_id = ' + user_id)
-        group_id = event.source.group_id
-        print('group_id = ' + group_id)
-
-        msg_type = event.message.type
-        fdb = firebase.FirebaseApplication(firebase_url, None)
-        if event.source.type == 'group':
-            user_chat_path = f'chat/{event.source.group_id}'
-        else:
-            user_chat_path = f'chat/{user_id}'
-            chat_state_path = f'state/{user_id}'
-        chatgpt = fdb.get(user_chat_path, None)
-
-        if msg_type == 'text':
-
-            if chatgpt is None:
-                messages = []
-            else:
-                messages = chatgpt
-            logging.info('text ='+text)
-            if text == '!清空':
-
-                fdb.delete(user_chat_path, None)
-                line_bot_api.reply_message(
-                    ReplyMessageRequest(
-                        reply_token=event.reply_token,
-                        messages=[TextMessage(text='------對話歷史紀錄已經清空------')]
-                    )
-                )
-            elif text == '!摘要':
-                model = genai.GenerativeModel('gemini-pro')
-                response = model.generate_content(
-                    f'Summary the following message in Traditional Chinese by less 5 list points. \n{messages}')
-                reply_msg = response.text
-            else:
-                model = genai.GenerativeModel('gemini-pro')
-                messages.append({'role': 'user', 'parts': [text]})
-                response = model.generate_content(messages)
-                messages.append({'role': 'model', 'parts': [response.text]})
-                # 更新firebase中的對話紀錄
-                fdb.put_async(user_chat_path, None, messages)
-                #reply_msg = response.text
-                reply_msg = ai_message(messages)
-            
-            logging.info('reply_msg ='+reply_msg)
-            
-            line_bot_api.reply_message(
-                ReplyMessageRequest(
-                    reply_token=event.reply_token,
-                    messages=[TextMessage(text=reply_msg)]
-                ))
-
-    return 'OK'
-
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -343,7 +262,7 @@ def handle_message(event):
         print(e.error.message)
         print(e.error.details)        
 
-    if text == '!清空':
+    if mtext == '!清空':
        fdb.delete(user_chat_path, None)
        line_bot_api.reply_message(
             ReplyMessageRequest(
