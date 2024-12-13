@@ -356,7 +356,7 @@ def handle_message(event):
         if not profile.display_name.strip() == "":
             responseMessage = "感謝 {display_name}, 您所提出的問題，以下是我的答覆，希望您能滿意\n \n {replyMessage}".format(display_name = profile.display_name, replyMessage = responseMessage)
             #responseMessage = '感謝 ' + profile.display_name + '您所提出的問題，以下是我的答覆，希望您能滿意\n'  + responseMessage
-        else
+        else:
             responseMessage = ai_message(mtext)
         
         # 更新firebase中的對話紀錄
