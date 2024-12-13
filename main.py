@@ -330,7 +330,7 @@ def handle_message(event):
        #fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
        #先取得使用者 Display Name (也就是顯示的名稱)
        #try:	
-       line_bot_api.get_profile(user_id)
+       profile = line_bot_api.get_profile(user_id)
        print('user display name = ' + profile.display_name) #記錄使用者名稱
        print('user picture_url = ' + profile.picture_url) #大頭貼網址
        print('user status_message = ' + profile.status_message) #狀態消息
