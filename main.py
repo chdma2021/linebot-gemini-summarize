@@ -328,7 +328,7 @@ def handle_message(event):
        user_chat_path = f'chat/{user_id}'
        print('user_id = ' + user_id)
        fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
-       // 先取得使用者 Display Name (也就是顯示的名稱)
+       #先取得使用者 Display Name (也就是顯示的名稱)
        userProfile, err := bot.GetProfile(user_id).Do()
        if err == '' :
 	  userName = userProfile.DisplayName
