@@ -34,7 +34,7 @@ from linebot import (
     LineBotApi, WebhookHandler
 )
 from linebot.exceptions import (
-    InvalidSignatureError
+    InvalidSignatureError , LineBotApiError
 )
 from linebot.models import *
 ##
@@ -335,7 +335,7 @@ def handle_message(event):
        print('user display name = ' + profile.display_name) #記錄使用者名稱
        print('user picture_url = ' + profile.picture_url) #大頭貼網址
        print('user status_message = ' + profile.status_message) #狀態消息
-    except linebot.exceptions.LineBotApiError as e:
+    except LineBotApiError as e:
         print(e.status_code)
         print(e.request_id)
         print(e.error.message)
