@@ -317,25 +317,27 @@ def handle_message(event):
     logging.info('loggin : event.message.text : ' + event.message.text)
     print('Print :event.message.text : ' + event.message.text)
     ##
-    #fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
+    fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
     if event.source.type == 'group':
        group_id = event.source.groupid
        user_chat_path = f'chat/{group_id}'
        print('group_id = ' + group_id)
-       #fdb.put(user_chat_path, None, 'group_id =  ' + group_id)
+       fdb.put_async(user_chat_path, None, 'group_id =  ' + group_id)
     else:
        user_id = event.source.user_id
        user_chat_path = f'chat/{user_id}'
        print('user_id = ' + user_id)
-       #fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
+       fdb.put_async(user_chat_path, None, 'user_id =  ' + user_id)
        #先取得使用者 Display Name (也就是顯示的名稱)
     try:
        #先取得使用者 Display Name (也就是顯示的名稱)
        profile = line_bot_api.get_profile(user_id)
        if not profile.display_name.strip() == "":
            print('user display name = ' + profile.display_name) #記錄使用者名稱
+           fdb.put_async(user_chat_path, None, 'user display name = ' + profile.display_name)           
        if not profile.picture_url.strip() == "":
            print('user picture_url = ' + profile.picture_url) #大頭貼網址
+           fdb.put_async(user_chat_path, None, 'user picture_url = ' + profile.picture_url)                      
     except LineBotApiError as e:
         print(e.status_code)
         print(e.request_id)
@@ -344,12 +346,12 @@ def handle_message(event):
 
     responseMessage = ai_message(mtext)
     # 更新firebase中的對話紀錄
-    #fdb.put(user_chat_path, None, 'question =  ' + mtext)
-    #fdb.put(user_chat_path, None, 'answer = ' + responseMessage)
+    fdb.put_async(user_chat_path, None, 'question =  ' + mtext)
+    fdb.put_async(user_chat_path, None, 'answer = ' + responseMessage)
 
     #message = '歡迎來到中華數位行銷推廣協會'
-    logging.info('Loggin : responseMessage : ' + responseMessage)
-    print('Print : responseMessage : ' + responseMessage)
+    #logging.info('Loggin : responseMessage : ' + responseMessage)
+    #print('Print : responseMessage : ' + responseMessage)
 
     event.message.text = responseMessage
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
