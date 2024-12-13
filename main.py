@@ -311,10 +311,6 @@ def handle_message(event):
     logging.info('Loggin : Hello [handle_message] I am come in')
     print('Print : Hello [handle_message] I am come in')
 
-    user_id = event.source.user_id
-    print('user_id = ' + user_id)
-    group_id = event.source.group_id
-    print('group_id = ' + group_id)
     
     mtext = event.message.text
     ##
@@ -323,14 +319,24 @@ def handle_message(event):
     ##
     fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
     if event.source.type == 'group':
-       user_chat_path = f'chat/{event.source.group_id}'
+       group_id = event.source.groupid
+       user_chat_path = f'chat/{group_id}'
+       print('group_id = ' + group_id)
+       fdb.put(user_chat_path, None, 'group_id =  ' + group_id)
     else:
+       user_id = event.source.user_id
        user_chat_path = f'chat/{user_id}'
+       print('user_id = ' + user_id)
+       fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
+       // 先取得使用者 Display Name (也就是顯示的名稱)
+       userProfile, err := bot.GetProfile(user_id).Do()
+       if err == '' :
+		  userName = userProfile.DisplayName
+          fdb.put(user_chat_path, None, 'userName =  ' + userName)       
+        
 
     responseMessage = ai_message(mtext)
     # 更新firebase中的對話紀錄
-    fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
-    fdb.put(user_chat_path, None, 'group_id =  ' + group_id)
     fdb.put(user_chat_path, None, 'question =  ' + mtext)
     fdb.put(user_chat_path, None, 'answer = ' + responseMessage)
 
