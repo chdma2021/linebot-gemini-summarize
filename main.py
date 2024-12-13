@@ -233,6 +233,9 @@ def handle_callback(content: request):
             continue
         text = event.message.text
         user_id = event.source.user_id
+        print('user_id = ' + user_id)
+        group_id = event.source.group_id
+        print('group_id = ' + group_id)
 
         msg_type = event.message.type
         fdb = firebase.FirebaseApplication(firebase_url, None)
@@ -307,14 +310,30 @@ def callback():
 def handle_message(event):
     logging.info('Loggin : Hello [handle_message] I am come in')
     print('Print : Hello [handle_message] I am come in')
+
+    user_id = event.source.user_id
+    print('user_id = ' + user_id)
+    group_id = event.source.group_id
+    print('group_id = ' + group_id)
     
-    #message = TextSendMessage(text=event.message.text)
     mtext = event.message.text
     ##
     logging.info('loggin : event.message.text : ' + event.message.text)
     print('Print :event.message.text : ' + event.message.text)
     ##
+    fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
+    if event.source.type == 'group':
+       user_chat_path = f'chat/{event.source.group_id}'
+    else:
+       user_chat_path = f'chat/{user_id}'
+
     responseMessage = ai_message(mtext)
+    # 更新firebase中的對話紀錄
+    fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
+    fdb.put(user_chat_path, None, 'group_id =  ' + group_id)
+    fdb.put(user_chat_path, None, 'question =  ' + mtext)
+    fdb.put(user_chat_path, None, 'answer = ' + responseMessage)
+
     #message = '歡迎來到中華數位行銷推廣協會'
     logging.info('Loggin : responseMessage : ' + responseMessage)
     print('Print : responseMessage : ' + responseMessage)
