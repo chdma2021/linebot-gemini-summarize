@@ -317,30 +317,30 @@ def handle_message(event):
     logging.info('loggin : event.message.text : ' + event.message.text)
     print('Print :event.message.text : ' + event.message.text)
     ##
-    fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
+    #fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
     if event.source.type == 'group':
        group_id = event.source.groupid
        user_chat_path = f'chat/{group_id}'
        print('group_id = ' + group_id)
-       fdb.put(user_chat_path, None, 'group_id =  ' + group_id)
+       #fdb.put(user_chat_path, None, 'group_id =  ' + group_id)
     else:
        user_id = event.source.user_id
        user_chat_path = f'chat/{user_id}'
        print('user_id = ' + user_id)
-       fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
+       #fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
        #先取得使用者 Display Name (也就是顯示的名稱)
-       #try:
-       profile = line_bot_api.get_profile(user_id)
-       print('user display name = ' + profile.displayName)
-       fdb.put(user_chat_path, None, 'user display name = ' + profile.displayName)       
-       #except LineBotApiError as e:
-		#print('LineBotApiError = ' + e)
+       try:
+       	profile = line_bot_api.get_profile(user_id)
+       	print('user display name = ' + profile.displayName)
+       #fdb.put(user_chat_path, None, 'user display name = ' + profile.displayName)       
+       except LineBotApiError as e:
+	print('LineBotApiError = ' + e)
         
 
     responseMessage = ai_message(mtext)
     # 更新firebase中的對話紀錄
-    fdb.put(user_chat_path, None, 'question =  ' + mtext)
-    fdb.put(user_chat_path, None, 'answer = ' + responseMessage)
+    #fdb.put(user_chat_path, None, 'question =  ' + mtext)
+    #fdb.put(user_chat_path, None, 'answer = ' + responseMessage)
 
     #message = '歡迎來到中華數位行銷推廣協會'
     logging.info('Loggin : responseMessage : ' + responseMessage)
