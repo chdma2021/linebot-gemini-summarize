@@ -157,10 +157,9 @@ def ai_message(question):
   system_instructions += "💡 國立臺北大學數位行銷學程，是全國唯一國立大學的數位行銷科系，也是唯一提供社會人士在職進修的管道。" 
   system_instructions += "在這裡，你將學到最實用的數位行銷知識與技能，為你的職涯發展增添無限可能！👉 別錯過這場年度盛事！ 12/14，我們不見不散！➡️ 更多資訊請洽："
   system_instructions += "台北大學數位行銷學士學位學程：https://www.dma.ntpu.edu.tw/"
-  system_instructions += "中華數位行銷推廣協會：https://chdma.org.tw"
-  
+  system_instructions += "中華數位行銷推廣協會：https://chdma.org.tw"  
 
-  print(system_instructions)
+  #print(system_instructions)
   model = 'gemini-1.5-flash'
   temperature = 2
 
@@ -354,6 +353,12 @@ def handle_message(event):
         )
     else:
         responseMessage = ai_message(mtext)
+        if not profile.display_name.strip() == "":
+            responseMessage = "感謝 {display_name}, 您所提出的問題，以下是我的答覆，希望您能滿意\n \n {replyMessage}".format(display_name = profile.display_name, replyMessage = responseMessage)
+            #responseMessage = '感謝 ' + profile.display_name + '您所提出的問題，以下是我的答覆，希望您能滿意\n'  + responseMessage
+        else
+            responseMessage = ai_message(mtext)
+        
         # 更新firebase中的對話紀錄
         fdb.put_async(user_chat_path, 'question', mtext)
         fdb.put_async(user_chat_path, 'answer', responseMessage)
