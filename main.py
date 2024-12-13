@@ -330,11 +330,11 @@ def handle_message(event):
        fdb.put(user_chat_path, None, 'user_id =  ' + user_id)
        #先取得使用者 Display Name (也就是顯示的名稱)
        try:
-	   profile = line_bot_api.get_profile(user_id)
-	   print('user display name = ' + profile.displayName)
-           fdb.put(user_chat_path, None, 'user display name = ' + profile.displayName)       
+	profile = line_bot_api.get_profile(user_id)
+	print('user display name = ' + profile.displayName)
+	fdb.put(user_chat_path, None, 'user display name = ' + profile.displayName)       
        except LineBotApiError as e:
-	   print('LineBotApiError = ' + e)
+	print('LineBotApiError = ' + e)
         
 
     responseMessage = ai_message(mtext)
