@@ -80,9 +80,11 @@ parser = WebhookParser(channel_secret)
 
 
 firebase_url = os.getenv('FIREBASE_URL')
-#gemini_key = os.getenv('GEMINI_API_KEY')
+print('FIREBASE_URL:' + firebase_url)
+gemini_key = os.getenv('GEMINI_API_KEY')
+print('GEMINI_API_KEY:'+gemini_key)
 ## change api key for CHDMA
-gemini_key = 'AIzaSyBNJncqirX0Cb-yGaYMhdfIU1K0IWBaYig'
+#gemini_key = 'AIzaSyBNJncqirX0Cb-yGaYMhdfIU1K0IWBaYig'
 
 # Initialize the Gemini Pro API
 genai.configure(api_key=gemini_key)
@@ -148,7 +150,7 @@ def ai_message(question):
   system_instructions += "Youtube 官方頻道：https://www.youtube.com/channel/UCT6xgBaEd-NTN76JMwFu3Cg ，或者搜尋 chdma2021，有更多免費的協會訊息與大師開講"
   system_instructions += "Facebook 官方粉絲專頁：https://www.facebook.com/CHDMA.TW，或者搜尋 chdma2021"
   system_instructions += "Instgram：https://www.instagram.com/chdma_2021?igsh=aDloOTdqcHh2M，或者搜尋 chdma2021"  
-  system_instructions += "台北大學數位行銷學士學位學程：https://www.dma.ntpu.edu.tw/"
+  system_instructions += "台北大學數位行銷學士學位學程：https://www.dma.ntpu.edu.tw"
   system_instructions += "中華數位行銷推廣協會：https://chdma.org.tw"  
 
   #print(system_instructions)
@@ -227,7 +229,7 @@ def handle_message(event):
     logging.info('loggin : event.message.text : ' + event.message.text)
     print('Print :event.message.text : ' + event.message.text)
     ##
-    fdb = firebase.FirebaseApplication('https://chdma-firebase-linebot-default-rtdb.firebaseio.com', None)
+    fdb = firebase.FirebaseApplication(firebase_url, None)
     if event.source.type == 'group':
        group_id = event.source.groupid
        user_chat_path = f'chat/{group_id}'
@@ -262,7 +264,7 @@ def handle_message(event):
             messages=[TextMessage(text='------對話歷史紀錄已經清空------')]
             )
         )
-        fdb.put_async(user_chat_path, '------對話歷史紀錄已經清空------')
+       fdb.put_async(user_chat_path, '------對話歷史紀錄已經清空------')
     else:
         responseMessage = ai_message(mtext)
         if not profile.display_name.strip() == "":
