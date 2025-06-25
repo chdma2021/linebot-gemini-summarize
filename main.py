@@ -234,16 +234,22 @@ def handle_message(event):
     timestamp_from_datetime = now.timestamp()
     print(f"Timestamp from datetime object: {timestamp_from_datetime}")
     ##
+    # Format the datetime object into a string
+    formatted_string = now.strftime("%Y-%m-%d %H:%M:%S")
+    print(f'formatted_string:{formatted_string}')
+    ##
     fdb = firebase.FirebaseApplication(firebase_url, None)
     if event.source.type == 'group':
        group_id = event.source.groupid
-       user_chat_path = f'chat/{group_id}/{timestamp_from_datetime}'
+       user_chat_path = f'chat/{group_id}/{formatted_string}'
        print('group_id = ' + group_id)
+       print('user_chat_path:' + user_chat_path)
        fdb.put_async(user_chat_path, 'groupInfo', 'group_id =  ' + group_id)
     else:
        user_id = event.source.user_id
-       user_chat_path = f'chat/{user_id}/{timestamp_from_datetime}'
+       user_chat_path = f'chat/{user_id}/{formatted_string}'
        print('user_id = ' + user_id)
+       print('user_chat_path:' + user_chat_path)
        fdb.put_async(user_chat_path, 'userInfo', 'user_id =  ' + user_id)
        #先取得使用者 Display Name (也就是顯示的名稱)
     try:
