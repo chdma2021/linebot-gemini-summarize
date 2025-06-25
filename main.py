@@ -3,6 +3,8 @@ import os
 import sys
 import requests
 import json
+import time
+from datetime import datetime
 
 #from fastapi import FastAPI, HTTPException, Request
 ##
@@ -84,7 +86,6 @@ print('FIREBASE_URL:' + firebase_url)
 gemini_key = os.getenv('GEMINI_API_KEY')
 print('GEMINI_API_KEY:'+gemini_key)
 ## change api key for CHDMA
-#gemini_key = 'AIzaSyBNJncqirX0Cb-yGaYMhdfIU1K0IWBaYig'
 
 # Initialize the Gemini Pro API
 genai.configure(api_key=gemini_key)
@@ -229,15 +230,19 @@ def handle_message(event):
     logging.info('loggin : event.message.text : ' + event.message.text)
     print('Print :event.message.text : ' + event.message.text)
     ##
+    now = datetime.now()
+    timestamp_from_datetime = now.timestamp()
+    print(f"Timestamp from datetime object: {timestamp_from_datetime}")
+    ##
     fdb = firebase.FirebaseApplication(firebase_url, None)
     if event.source.type == 'group':
        group_id = event.source.groupid
-       user_chat_path = f'chat/{group_id}'
+       user_chat_path = f'chat/{group_id}/{timestamp_from_datetime}'
        print('group_id = ' + group_id)
        fdb.put_async(user_chat_path, 'groupInfo', 'group_id =  ' + group_id)
     else:
        user_id = event.source.user_id
-       user_chat_path = f'chat/{user_id}'
+       user_chat_path = f'chat/{user_id}/{timestamp_from_datetime}'
        print('user_id = ' + user_id)
        fdb.put_async(user_chat_path, 'userInfo', 'user_id =  ' + user_id)
        #先取得使用者 Display Name (也就是顯示的名稱)
